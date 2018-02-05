@@ -19,6 +19,10 @@ namespace DirectorySearcherLib
         public static Uri returnUri = new Uri("http://MyDirectorySearcherApp");        
         const string graphResourceUri = "https://graph.windows.net";
         public static string graphApiVersion = "2013-11-08";
+        private static void Log(LogLevel level, string message, bool containsPii)
+        {
+            System.Diagnostics.Debug.WriteLine( "LOG: " + message);
+        }
 
         public static async Task<List<User>> SearchByAlias(string alias, IPlatformParameters parent) // add this param
         {
@@ -28,6 +32,8 @@ namespace DirectorySearcherLib
 
             try
             {
+                LoggerCallbackHandler.LogCallback = Log;
+                LoggerCallbackHandler.PiiLoggingEnabled = true;
                 // To avoid the user consent page, input the values for your registered application above,
                 // comment out the if statement immediately below, and replace the commonAuthority parameter
                 // with https://login.microsoftonline.com/common/<your.tenant.domain.com>
